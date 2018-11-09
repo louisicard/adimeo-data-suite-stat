@@ -19,24 +19,24 @@ class RawKeywordsStatCompiler extends StatCompiler
           "bool": {
               "must": [{
                 "term": {
-                  "stat_mapping": "' . $mapping . '"
+                  "mapping": "' . $mapping . '"
                 }
               }]
           }
       },
       "aggs": {
-          "keywords": {
+          "keywords_raw": {
             "terms": {
                 "field": "keywords_raw"
             }
-        }
+         }
       }
     }';
     $query = json_decode($query, TRUE);
     if($from != null) {
       $query['query']['bool']['must'][] = json_decode('{
                     "range": {
-                        "stat_date": {
+                        "date": {
                             "gte": "' . $from->format('Y-m-d\TH:i') . '"
                         }
                     }
@@ -54,9 +54,9 @@ class RawKeywordsStatCompiler extends StatCompiler
 
     $res = $this->getStatIndexManager()->search(StatIndexManager::APP_INDEX_NAME, $query, 0, 9999, 'stat');
 
-    if(isset($res['aggregations']['keywords']['buckets'])){
+    if(isset($res['aggregations']['keywords_raw']['buckets'])){
       $data = array();
-      foreach($res['aggregations']['keywords']['buckets'] as $bucket){
+      foreach($res['aggregations']['keywords_raw']['buckets'] as $bucket){
         $data[] = array(
           $bucket['key'],
           $bucket['doc_count']
