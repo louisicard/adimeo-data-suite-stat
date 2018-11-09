@@ -27,22 +27,10 @@ class KeywordsStatCompiler extends StatCompiler
       },
       "aggs": {
           "keywords": {
-              "nested":{
-                "path": "query"
-              },
-              "aggs":{
-                "raw": {
-                  "terms": {
-                      "field": "query.raw"
-                  }
-                },
-                "analyzed": {
-                  "terms": {
-                      "field": "query.analyzed"
-                  }
-                }
-              }
-          }
+            "terms": {
+                "field": "keywords"
+            }
+         }
       }
     }';
     $query = json_decode($query, TRUE);
