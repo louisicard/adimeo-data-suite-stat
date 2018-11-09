@@ -19,7 +19,7 @@ class QueryCountStatCompiler extends StatCompiler
           "bool": {
               "must": [{
                 "term": {
-                  "stat_mapping": "' . $mapping . '"
+                  "mapping": "' . $mapping . '"
                 }
               }]
           }
@@ -27,7 +27,7 @@ class QueryCountStatCompiler extends StatCompiler
       "aggs": {
           "date": {
               "date_histogram": {
-                  "field": "stat_date",
+                  "field": "date",
                   "interval": "' . $this->getElasticPeriod($period) . '"
               }
           }
@@ -37,7 +37,7 @@ class QueryCountStatCompiler extends StatCompiler
     if($from != null) {
       $query['query']['bool']['must'][] = json_decode('{
                     "range": {
-                        "stat_date": {
+                        "date": {
                             "gte": "' . $from->format('Y-m-d\TH:i') . '"
                         }
                     }
@@ -46,7 +46,7 @@ class QueryCountStatCompiler extends StatCompiler
     if($to != null) {
       $query['query']['bool']['must'][] = json_decode('{
                     "range": {
-                        "stat_date": {
+                        "date": {
                             "lte": "' . $to->format('Y-m-d\TH:i') . '"
                         }
                     }
