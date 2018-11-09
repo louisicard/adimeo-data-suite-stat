@@ -64,7 +64,6 @@ class KeywordsStatCompiler extends StatCompiler
                     }
                 }', TRUE);
     }
-    $query = json_encode($query, JSON_PRETTY_PRINT);
 
     $res = $this->getStatIndexManager()->search(StatIndexManager::APP_INDEX_NAME, $query, 0, 9999, 'stat');
 
