@@ -55,9 +55,9 @@ class KeywordsStatCompiler extends StatCompiler
 
     $res = $this->getStatIndexManager()->search(StatIndexManager::APP_INDEX_NAME, $query, 0, 9999, 'stat');
 
-    if(isset($res['aggregations']['keywords']['analyzed']['buckets'])){
+    if(isset($res['aggregations']['keywords']['buckets'])){
       $data = array();
-      foreach($res['aggregations']['keywords']['analyzed']['buckets'] as $bucket){
+      foreach($res['aggregations']['keywords']['buckets'] as $bucket){
         $data[] = array(
           $bucket['key'],
           $bucket['doc_count']
