@@ -47,7 +47,7 @@ class KeywordsStatCompiler extends StatCompiler
     if($to != null) {
       $query['query']['bool']['must'][] = json_decode('{
                     "range": {
-                        "stat_date": {
+                        "date": {
                             "lte": "' . $to->format('Y-m-d\TH:i') . '"
                         }
                     }
