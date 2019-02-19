@@ -4,11 +4,11 @@ namespace AdimeoDataSuite\Stat;
 
 use AdimeoDataSuite\Index\StatIndexManager;
 
-class RawKeywordsStatCompiler extends StatCompiler
+class QueryStatCompiler extends StatCompiler
 {
   function getDisplayName()
   {
-    return "Keywords (raw) statistics";
+    return "Popular queries";
   }
 
   function compile($mapping, $from, $to, $period)
@@ -25,9 +25,9 @@ class RawKeywordsStatCompiler extends StatCompiler
           }
       },
       "aggs": {
-          "keywords_raw": {
+          "text": {
             "terms": {
-                "field": "keywords_raw",
+                "field": "text",
                 "size": 20
             }
          }
@@ -55,9 +55,9 @@ class RawKeywordsStatCompiler extends StatCompiler
 
     $res = $this->getStatIndexManager()->search(StatIndexManager::APP_INDEX_NAME, $query, 0, 0, 'stat');
 
-    if(isset($res['aggregations']['keywords_raw']['buckets'])){
+    if(isset($res['aggregations']['text']['buckets'])){
       $data = array();
-      foreach($res['aggregations']['keywords_raw']['buckets'] as $bucket){
+      foreach($res['aggregations']['text']['buckets'] as $bucket){
         $data[] = array(
           $bucket['key'],
           $bucket['doc_count']
@@ -70,7 +70,7 @@ class RawKeywordsStatCompiler extends StatCompiler
 
   function getHeaders()
   {
-    return array('Keywords', 'Count');
+    return array('Query', 'Count');
   }
 
   function getGoogleChartClass()
@@ -81,7 +81,7 @@ class RawKeywordsStatCompiler extends StatCompiler
   function getJSData()
   {
     $js = 'var statData = new google.visualization.DataTable();
-    statData.addColumn("string", "Keywords");
+    statData.addColumn("string", "Query");
     statData.addColumn("number", "Count");
 
     statData.addRows([';
@@ -100,7 +100,7 @@ class RawKeywordsStatCompiler extends StatCompiler
     $js .= ']);';
 
     $js .= 'var chartOptions = {
-          title: "Keywords statistics",
+          title: "Popular queries",
           legend: { position: "bottom" }
         };';
     return $js;

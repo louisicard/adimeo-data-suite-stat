@@ -28,7 +28,8 @@ class KeywordsStatCompiler extends StatCompiler
       "aggs": {
           "keywords": {
             "terms": {
-                "field": "keywords"
+                "field": "keywords",
+                "size": 20
             }
          }
       }
@@ -53,7 +54,7 @@ class KeywordsStatCompiler extends StatCompiler
                 }', TRUE);
     }
 
-    $res = $this->getStatIndexManager()->search(StatIndexManager::APP_INDEX_NAME, $query, 0, 9999, 'stat');
+    $res = $this->getStatIndexManager()->search(StatIndexManager::APP_INDEX_NAME, $query, 0, 0, 'stat');
 
     if(isset($res['aggregations']['keywords']['buckets'])){
       $data = array();
