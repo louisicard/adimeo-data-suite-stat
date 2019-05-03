@@ -93,7 +93,7 @@ class QueryStatCompiler extends StatCompiler
         if (!$first)
           $js .= ',';
         $first = false;
-        $js .= '["' . $data[0] . '", ' . $data[1] . ']';
+        $js .= '["' . str_replace('"', '\"', $data[0]) . '", ' . $data[1] . ']';
       }
     }
 
